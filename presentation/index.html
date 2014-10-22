@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="en" ng-app="app">
+
+	<head>
+		<meta charset="utf-8">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/night.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+	</head>
+
+	<body>
+
+		<div class="reveal">
+			<div class="slides">
+
+                <!--
+                 Hi! I'm sure you've got great time today listening to all the awesome talks! While your brain is getting
+                 a lot stimulus your body might be getting a bit stiff from the all-day sitting.
+                 But don't worry, I won't make you do exercises here! We are going, on the other hand, to make sure that our directives are fit!
+                -->
+                <section>
+                    <h2><a href="http://angular-ui.github.io/bootstrap/" target="_blank">angular-ui/bootstrap</a></h2>
+                    <h4>Lessons learned: improving flexibility</h4>
+                    <img src="http://static.freepsdfiles.net/uploads/2013/03/Yoga_Silhouettes_Set_2_Preview.jpg" alt=""/>
+                    <p>
+                        <small>
+                            <a href="mailto:pkozlowski.opensource@gmail.com">pkozlowski.opensource@gmail.com</a> /
+                            <a href="https://twitter.com/pkozlowski_os">@pkozlowski_os</a>
+                            <p>ng-europe, October 22nd-23rd, 2014</p>
+                        </small>
+                    </p>
+				</section>
+
+                <!-- For those who don't me: my name is Pawel Kozlowski and I'm involved in ssveral Open Source projects -->
+                <section>
+                    <h3>I'm into climbing and open-source</h3>
+                    <img src="https://0.gravatar.com/avatar/73cb0ce891d2be76bd0fdb6e14f4c91c?d=https%3A%2F%2Fidenticons.github.com%2F3e938297ba9793abbd9e22175e44baf5.png&r=x&s=440"
+                         alt=""/>
+                    <p>AngularJS, AngularUI, Karma runner, angular-app, ...</p>
+                </section>
+
+                <!-- One of those projects is angular-ui/bootstrap - a set of directives for AngularJS based on Bootstrap's markup / CSS -->
+                <section>
+                    <h3><a href="http://angular-ui.github.io/bootstrap/" target="_blank">http://angular-ui.github.io/bootstrap/</a></h3>
+                    <img
+                            src="https://raw.githubusercontent.com/angular-ui/angular-ui.github.com/master/logo/UI_Shield_Bootstrap.png"
+                            style="width: 50%; height: 50%"/>
+                </section>
+                
+                <!--
+                    So when we've been starting this project we've made some assumptions, governing principles
+                    Talk about those
+                -->
+                <section>
+                    <h2>Philosophy</h2>
+                    <ul>
+                        <li>Lightweight, native directives based on Bootstrap CSS</li>
+                        <li><a href="https://github.com/angular-ui/bootstrap#customize-templates" target="_top">Flexible / Customizable</a></li>
+                        <li>Tested</li>
+                    </ul>
+                </section>
+
+                <!--
+                    But this talk is not about angular-ui/bootstrap per see but more about certain things we've learned while maintaining those directive
+                    Becouse regardles of how well you are careful in designing your API there will be always someone who is going to say:
+                    I like your stuff, but...
+                -->
+                <section>
+                    <h2>Try it at home</h2>
+                    <img src="http://station923.files.wordpress.com/2013/07/kungfu.jpg" alt=""/>
+                </section>
+
+                <!--
+                    There is this company in France called Atol which builds its marketting strategy on the fact that you can customise your glasses
+                    So changing look & feel is the first, obvious thing to want to do, right?
+                    Well, it turns out that it wasn't that easy before AngularJS. Let's have a look at a typical example of a jQuery plugin.
+                    As you can see the markup is all over the JS code so if you want to change it you've got no other choice than fork
+                    ... or just stick to CSS customisations.
+                -->
+                <section>
+                    <h2>Customising look & feel</h2>
+                    <p><img src="http://img.talence-shopping.com/boutiques/732_1334.jpg" alt=""/></p>
+                    <p><a href="https://github.com/jquery/jquery-ui/blob/c0df7b01385f0c3eb100a3f841625cae1b180185/ui/datepicker.js#L1669-L1694" target="_blank">Not so easy with jQuery plugins...</a></p>
+                </section>
+
+                <!--
+                    Compare this to the markup in angular-ui/bootstrap. All the markup is nicely isolated and can be overriden by providing an alternative template
+                    In fact angular-ui/bootstrap is providing a build without any templates where you can provide templates using your markup of choice and build
+                    on top of existing Javacript.
+                -->
+                <section>
+                    <h2>templateUrl</h2>
+                    <p><img src="http://www.4common.com/wp-content/uploads/2014/01/HTML-What%C2%B4s-All-the-Hype-About-HTML5-1.jpg" alt=""/></p>
+                    <p><a href="https://github.com/angular-ui/bootstrap/tree/master/template/datepicker" target="_blank">templates in angular-ui/bootstrap datepicker</a></p>
+                </section>
+
+                <!--
+                    The ultimate example of this flexibility can be found in the angular foundation project - the clone of angular-ui/bootstrap
+                    Obviously this only works if you keep _all_ your markup out of JavaScrip: HTML, CSS, animations
+                    I must say that we didn't always manage to keep those markup things out of JavaScript but yeh, this is the goal
+                -->
+                <section>
+                    <h2>Angular Foundation</h2>
+                    <p><img src="http://pineconellc.github.io/angular-foundation/assets/logo.png" alt=""/></p>
+                    <a href="http://pineconellc.github.io/angular-foundation/" target="_blank">http://pineconellc.github.io/angular-foundation/</a>
+                </section>
+
+                <section>
+                    <h2>Markup customisation</h2>
+                    <ul>
+                        <li>Externalise markup with <code>templateUrl</code></li>
+                        <li>Keep _all_ the markup / CSS out of your JavaScript code</li>
+                        <li>Preload templates ( <code>templateUrl</code> is just an unique id)</li>
+                        <li>You might want to have a separate module for templates</li>
+                    </ul>
+                </section>
+
+                <!-- You can get very far with just templates swapping (after all pagination, tabset etc. - those things tend to behave the same way)
+                     But there will be times when people will want to change or build on top of the existing behaviour.
+                -->
+                <section>
+                    <h2>Customising functionality</h2>
+                    <img src="http://upload.wikimedia.org/wikipedia/commons/b/be/Google_Glass_with_frame.jpg" alt=""/>
+                </section>
+
+                <!--
+                    So the first idea that comes to ones mind is to use switches, most of the time in form of attributes.
+                -->
+                <section>
+                    <h2>Settings / configuration</h2>
+                    <img src="http://www.nomadfactory.com/products/bt_equalizers/img/fullsize/bt_peq322.png" alt=""/>
+                </section>
+
+                <!--
+                   But when we take a closer look at the attributes we will realise that some of those are essential,
+                   while some others might be there as someone had a special use-case and we wanted to hide it behind a flag
+                -->
+                <section>
+                    <h2>"Essential" vs. configuration attributes</h2>
+                    <ul>
+                        <li>Allow people to specify defaults for the optional arguments</li>
+                        <li>Limit number of "config" attributes:
+                            <ul>
+                                <li>too much "weight"</li>
+                                <li>too much complexity</li>
+                                <li>too much $watch-ing</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <br><br>
+                    Examples: <a href="http://angular-ui.github.io/bootstrap" target="_blank">alert, pagination, datepicker</a>
+                </section>
+
+                <!--
+                    The trouble with more and more switches is that we are ending up with big, hard to use API.
+                    I remember my colegue once saying, frustrated with such a bulky API, that probably operating a nuclear
+                    power plant is easier that using the mentioned library. You don't want your directives to be that hard to use, right?
+                -->
+                <section>
+                    <h2>"API"...</h2>
+                    <img src="http://web.ornl.gov/info/ornlreview/v38_1_05/images/a11_controls_full.jpg" alt=""/>
+                </section>
+
+                <!--
+                    So what could we do? Do we have any alternatives to the explosion of attributes? Yes!
+                    One of the possibilities is to use controllers.
+                -->
+                <section>
+                    <h2>controller</h2>
+                    <img src="http://www.geeky-gadgets.com/wp-content/uploads/2012/11/Def-Con-F4-Avenger-Controller.jpg" alt=""/>
+                </section>
+
+                <section>
+                    <h2>Example: closing alerts on timeout</h2>
+                    <br/><br/>
+                    <a href="https://github.com/khalilravanna/bootstrap/commit/65c9178ab443b7155791543f8abba03d243dc848" target="_blank">Initial proposal</a>
+                </section>
+
+                <section>
+                    <h2>"One size fits all"</h2>
+                    <img src="http://dva.pl/wp-content/uploads/2013/05/scyzoryk-1024x756.png" style="width: 70%; height: 70%"/>
+                </section>
+
+                <section>
+                    <h2>Example: closing alerts on timeout</h2>
+                    <br/><br/>
+                    <a href="https://github.com/angular-ui/bootstrap/commit/ca6fad675bf2aa793896bf3e086330667a5d9051" target="_blank">Implemented solution</a>
+                </section>
+
+                <section>
+                    <h2>controller</h2>
+                    <ul>
+                        <li>more than API for inter-directive communication</li>
+                        <li>extension point for the functionality</li>
+                        <li>controllers could be:
+                            <ul>
+                                <li>invoked from other directives</li>
+                                <li>monkey-patched</li>
+                                <li>decorated in the DI container</li>
+                            </ul>
+                        </li>
+                        <li>grow the API / open-up gradually</li>
+                    </ul>
+                </section>
+
+                <!--
+                    The other alternative is to stack directives on top of the other
+                    Looking at this slide I'm might be loosing the audience since now everybody will be thinking about the coffee break
+                    Don't worry, we are just few slides away from the coffee!
+                -->
+                <section>
+                    <h2>Aggregation</h2>
+                    <img style="width: 80%; height: 80%" src="http://www.reclaimingprovincial.com/wp-content/uploads/2011/10/cakeR.jpg" alt=""/>
+                </section>
+
+                <!--
+                    I don't know why, but despite all the negative lessons from the past people do insist on having dragabble modals
+                    By default modals in the Bootstrap are not draggable but people still requested it. We didn't want to include this
+                    functionality in the angular-ui/bootstrap so what is the alternative?
+                -->
+                <section>
+                    <h2>Example: draggable modals</h2>
+                    <img src="http://i.imgur.com/JcF1tqj.jpg" style="width: 70%; height: 70%"/>
+                </section>
+
+                <!--
+                    This technique only works if you compose your directives from smaller ones that can co-operate.
+                -->
+                <section>
+                    <h2>Build from small directives</h2>
+                    <img src="http://vr-zone.com/uploads/18523/array.jpg" alt=""/>
+                </section>
+
+                <!--
+
+                -->
+                <section>
+                    <h2>Sometimes directives are not the best abstraction</h2>
+                    <img src="http://wonderstoday.com/wp-content/uploads/2011/09/creative-bad-designs-11.jpg" alt=""/>
+                </section>
+
+                <section>
+                    <h2>&lt;modal&gt; vs. $modal</h2>
+                </section>
+
+                <section>
+                    <h2>Know the rules</h2>
+                    <h3>and break them when needed</h3>
+                    <img src="http://www.omnlondon.com/wp-content/uploads/2012/07/bird-breaking-the-rules.png" alt=""/>
+                </section>
+
+                <section>
+                    <h2>Takaways</h2>
+                    <ul>
+                        <li>Externalise markup (templateUrl)</li>
+                        <li>Open up logic API with a controller</li>
+                        <li>You don't need to code everything</li>
+                        <li>Write small, focused directives</li>
+                        <li>Sometimes a directive is not the right abstraction</li>
+                        <li>Don't guess - enlarge APIs as use-cases emerge</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>A note on testing</h2>
+                    <img src="http://upload.wikimedia.org/wikipedia/commons/0/0c/PSM_V45_D249_Milk_testing_laboratory_wisconsin_dairy_school.jpg"/>
+                    <a href="https://github.com/vojtajina/ng-directive-testing" target="_blank">https://github.com/vojtajina/ng-directive-testing</a>
+                </section>
+
+                <section>
+                    <h2>Some more hacking tips</h2>
+                    <img src="https://avatars1.githubusercontent.com/u/474988?v=2&s=460" alt=""/><br>
+                    <a href="http://briantford.com/blog/angular-hacking-core" target="_blank">Hacking Core Directives in AngularJS</a>
+                </section>
+
+                <section>
+                    <h1>That's all</h1>
+                    <h3>Thank you for having me.</h3>
+                    <small>
+                        <a href="mailto:pkozlowski.opensource@gmail.com">pkozlowski.opensource@gmail.com</a> /
+                        <a href="https://twitter.com/pkozlowski_os">@pkozlowski_os</a>
+                    </small>
+                    <p>
+                        <a href="https://github.com/pkozlowski-opensource/ng-europe-2014" target="_blank">https://github.com/pkozlowski-opensource/ng-europe-2014</a>
+                    </p>
+                </section>
+
+            </div>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.min.js"></script>
+        <script src="lib/js/angular.js"></script>
+        <script src="lib/js/ngApp.js"></script>
+
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+				// Parallax scrolling
+				// parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+				// parallaxBackgroundSize: '2100px 900px',
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>

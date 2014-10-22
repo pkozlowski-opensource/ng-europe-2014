@@ -1,2 +1,1 @@
-ng-europe-2014
-==============
+Presentation and examples for [ngEurope 2014]()
